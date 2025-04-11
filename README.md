@@ -39,7 +39,34 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-5. Run the backend server:
+5. View the .env.example file and add the required enviornment variables
+```bash
+# JWT Configuration
+SECRET_KEY=your_secret_key_for_jwt_token_generation
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+# AWS S3 Configuration
+AWS_ACCESS_KEY=your_aws_access_key
+AWS_SECRET_KEY=your_aws_secret_key
+AWS_REGION=your_aws_region
+BUCKET_NAME=your_s3_bucket_name
+
+# OpenAI Configuration
+OPENAI_API_KEY=your_openai_api_key
+
+# Email Configuration
+EMAIL_HOST=smtp.example.com
+EMAIL_PORT=587
+EMAIL_USERNAME=your_email@example.com
+EMAIL_PASSWORD=your_email_password
+EMAIL_FROM=your_email@example.com
+
+# Frontend URL
+FRONTEND_URL=http://localhost:3000 
+```
+
+6. Run the backend server:
 ```bash
 uvicorn app.main:app
 ```
@@ -67,11 +94,9 @@ I used **AWS S3** to save everything: videos, frame logs, vector data, and chat
 
 ### Scalability
 
-The platform can handle many users and many videos at once because:
+The agent uses vector embeddings to track video context every few frames. LangChain + RAG allows the agent to reference earlier parts of the video for better understanding.
 
-- FastAPI can be run on multiple servers with a load balancer
-- AWS S3 gives us unlimited storage space
-- AWS IVS handles live streams without delay
+For scalability, embeddings are stored in memory during processing, and final data is saved to AWS S3. FastAPI and AWS services like S3 and IVS ensure the system can handle multiple users and streams efficiently.
 
 ### Security
 
