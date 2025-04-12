@@ -47,7 +47,6 @@ import openai
 
 # Set OpenAI API key
 # openai.api_key = os.getenv("OPENAI_API_KEY")
-openai.api_key = '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'
 os.environ['OPENAI_API_KEY'] = openai.api_key
 
 # LangChain Config
